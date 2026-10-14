@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezzet Durağı - Zengin Menü</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="welcome-page" class="page active">
+        <div class="welcome-container">
+            <h1>Lezzet Durağı'na Hoş Geldiniz</h1>
+            <p>Zengin menümüzü incelemek için QR kodu okutabilir veya hemen menüye geçiş yapabilirsiniz.</p>
+            
+            <div class="qr-box">
+                <img id="qr-image" src="" alt="QR Code">
+            </div>
+
+            <div class="qr-actions">
+                <button class="action-btn download-btn" onclick="downloadQR()">QR İndir</button>
+                <button class="action-btn share-btn" onclick="shareQR()">QR Paylaş</button>
+            </div>
+
+            <button class="menu-btn" onclick="openMenu()">MENÜYE GİRİŞ YAP</button>
+        </div>
+    </div>
+
+    <div id="menu-page" class="page">
+        <div class="menu-container">
+            <header>
+                <h1>Lezzet Durağı</h1>
+                <p>Geniş ve lezzetli ürün yelpazemizle hizmetinizdeyiz!</p>
+                <button class="back-btn" onclick="openWelcome()">← Geri Dön</button>
+            </header>
+
+            <section class="menu-section">
+                <h2>Çorbalar</h2>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Mercimek Çorbası</h3>
+                        <p class="desc">Geleneksel ev yapımı süzme mercimek çorbası.</p>
+                        <p class="price">60 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Mercimek Çorbası')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Kelle Paça Çorbası</h3>
+                        <p class="desc">Özel sos ve sarımsak eşliğinde.</p>
+                        <p class="price">90 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Kelle Paça Çorbası')">Sipariş Ver</button>
+                </div>
+            </section>
+
+            <section class="menu-section">
+                <h2>Başlangıçlar & Salatalar</h2>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Patates Kızartması</h3>
+                        <p class="desc">Özel baharatlar ve ketçap-mayonez ile.</p>
+                        <p class="price">75 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Patates Kızartması')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Sezar Salata</h3>
+                        <p class="desc">Izgara tavuk dilimleri, marul, kroton ekmek ve özel Sezar sos.</p>
+                        <p class="price">130 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Sezar Salata')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Çoban Salatası</h3>
+                        <p class="desc">Domates, salatalık, biber, zeytinyağı ve nar ekşisi.</p>
+                        <p class="price">85 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Çoban Salatası')">Sipariş Ver</button>
+                </div>
+            </section>
+
+            <section class="menu-section">
+                <h2>Ana Yemekler</h2>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Özel Soslu Burger</h3>
+                        <p class="desc">Taze dana eti, cheddar peyniri ve patates ile.</p>
+                        <p class="price">220 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Özel Soslu Burger')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>İtalyan Usulü Margherita Pizza</h3>
+                        <p class="desc">Mozzarella, taze fesleğen ve özel domates sosu.</p>
+                        <p class="price">250 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Margherita Pizza')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Karışık Izgara Tabağı</h3>
+                        <p class="desc">Kuzu şiş, köfte, tavuk pirzola, pilav ve közlenmiş sebzelerle.</p>
+                        <p class="price">380 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Karışık Izgara Tabağı')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Adana Kebap</h3>
+                        <p class="desc">Zırh kıymasından acılı özel Adana kebap, lavaş ve bulgur pilavı.</p>
+                        <p class="price">260 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Adana Kebap')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Mantarlı Kremalı Tavuk</h3>
+                        <p class="desc">Jülyen doğranmış tavuk, mantar, krema sosu ve fesleğen.</p>
+                        <p class="price">210 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Mantarlı Kremalı Tavuk')">Sipariş Ver</button>
+                </div>
+            </section>
+
+            <section class="menu-section">
+                <h2>Pide & Lahmacun</h2>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Kıymalı Kaşarlı Pide</h3>
+                        <p class="desc">Özel hamur üzerinde zengin kıyma ve erimiş kaşar.</p>
+                        <p class="price">190 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Kıymalı Kaşarlı Pide')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Çıtır Lahmacun (Adet)</h3>
+                        <p class="desc">Maydanoz, limon ve yeşillik eşliğinde.</p>
+                        <p class="price">65 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Çıtır Lahmacun')">Sipariş Ver</button>
+                </div>
+            </section>
+
+            <section class="menu-section">
+                <h2>Tatlılar</h2>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Fıstıklı Dilim Baklava</h3>
+                        <p class="desc">Geleneksel kaymak eşliğinde nefis baklava.</p>
+                        <p class="price">110 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Fıstıklı Baklava')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Fırın Sütlaç</h3>
+                        <p class="desc">Üzeri hafif kızarmış ev yapımı fırın sütlaç.</p>
+                        <p class="price">80 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Fırın Sütlaç')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Künefe</h3>
+                        <p class="desc">Özel peyniri ve şerbetiyle sıcak servis edilir.</p>
+                        <p class="price">140 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Künefe')">Sipariş Ver</button>
+                </div>
+            </section>
+
+            <section class="menu-section">
+                <h2>İçecekler</h2>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Ev Yapımı Soğuk Limonata</h3>
+                        <p class="desc">Taze nane yaprakları ile ferahlatıcı tat.</p>
+                        <p class="price">50 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Soğuk Limonata')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Ayran (Geleneksel)</h3>
+                        <p class="desc">Yayık ayranı, köpüklü.</p>
+                        <p class="price">35 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Ayran')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Türk Kahvesi</h3>
+                        <p class="desc">Bol köpüklü, lokum eşliğinde.</p>
+                        <p class="price">45 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Türk Kahvesi')">Sipariş Ver</button>
+                </div>
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>Kutu Kola / Fanta / Sprite</h3>
+                        <p class="desc">Soğuk servis edilir.</p>
+                        <p class="price">40 ₺</p>
+                    </div>
+                    <button onclick="orderItem('Kutu İçecek')">Sipariş Ver</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        const targetUrl = "https://spontaneous-malabi-88a3f0.netlify.app";
+        
+        document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(targetUrl)}`;
+
+        function openMenu() {
+            document.getElementById('welcome-page').classList.remove('active');
+            document.getElementById('menu-page').classList.add('active');
+        }
+
+        function openWelcome() {
+            document.getElementById('menu-page').classList.remove('active');
+            document.getElementById('welcome-page').classList.add('active');
+        }
+
+        function orderItem(itemName) {
+            alert(itemName + " siparişiniz alındı! Mutfaga iletiliyor, afiyet olsun.");
+        }
+
+        function downloadQR() {
+            const qrUrl = document.getElementById('qr-image').src;
+            const a = document.createElement('a');
+            a.href = qrUrl;
+            a.download = 'lezzet-duragi-qr.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        async function shareQR() {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'Lezzet Durağı QR Menü',
+                        text: 'Lezzet Durağı dijital menüsüne buradan ulaşabilirsiniz:',
+                        url: targetUrl,
+                    });
+                } catch (error) {
+                    console.log('Paylaşım iptal edildi');
+                }
+            } else {
+                alert('Bağlantı kopyalandı!');
+                navigator.clipboard.writeText(targetUrl);
+            }
+        }
+    </script>
+</body>
+</html>
