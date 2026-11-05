@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="نظام المنيو الرقمي والطلبات عبر رمز QR">
+  <title>تتبّع الطلب | Lezzet Durağı</title>
+  <!-- Google Fonts: Latin harfler için Poppins, Arapça için Cairo (internet yoksa sistem yazı tipi kullanılır) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap">
+  <!-- Tüm sayfalar ve diller aynı ortak stil dosyasını kullanır -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-tracking" data-lang="ar" data-page="tracking">
+  <header class="site-header" id="site-header">
+    <div class="container site-header__inner">
+      <a href="menu.html" class="brand" id="brand">
+        <span class="brand__logo" aria-hidden="true">🍽️</span>
+        <span class="brand__name">Lezzet Durağı
+          <!-- Masa numarası QR koddan gelecek (final aşamasında JavaScript ile) -->
+          <span class="brand__sub" id="table-badge" data-table-id="5">طاولة 5</span>
+        </span>
+      </a>
+      <!-- Dil seçimi: her dilin sayfası kendi klasöründe (tr / ar / en) -->
+      <nav class="lang-switch" id="lang-switch" aria-label="اختيار اللغة">
+        <a href="../tr/order-tracking.html" class="lang-link" lang="tr" hreflang="tr" data-lang="tr" title="Türkçe">TR</a>
+        <a href="../ar/order-tracking.html" class="lang-link is-active" lang="ar" hreflang="ar" data-lang="ar" title="العربية" aria-current="true">AR</a>
+        <a href="../en/order-tracking.html" class="lang-link" lang="en" hreflang="en" data-lang="en" title="English">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="tracking container" id="order-tracking" data-order-id="1045" data-table-id="5">
+    <!-- Sipariş durum kartı -->
+    <section class="card" id="order-status-card" aria-labelledby="tracking-title">
+      <h1 class="tracking__title" id="tracking-title">تتبّع الطلب</h1>
+      <ul class="order-meta">
+        <li>رقم الطلب: <strong id="order-number">#1045</strong></li>
+        <li>طاولة: <strong id="order-table">5</strong></li>
+        <li>الساعة: <strong id="order-time">14:32</strong></li>
+      </ul>
+
+      <!-- Durum adımları: data-current-status değeri finalde JavaScript ile güncellenecek -->
+      <ol class="steps" id="order-steps" data-current-status="preparing" aria-label="حالة الطلب">
+        <li class="step is-done" id="step-pending" data-status="pending">
+          <span class="step__icon" aria-hidden="true">🧾</span>
+          <div class="step__content">
+            <h3 class="step__title">قيد الانتظار</h3>
+            <p class="step__text">تم استلام طلبك وهو بانتظار التأكيد.</p>
+            <span class="step__time">14:32</span>
+          </div>
+        </li>
+        <li class="step is-active" id="step-preparing" data-status="preparing" aria-current="step">
+          <span class="step__icon" aria-hidden="true">👨‍🍳</span>
+          <div class="step__content">
+            <h3 class="step__title">قيد التحضير</h3>
+            <p class="step__text">يتم تحضير طلبك في المطبخ.</p>
+            <span class="step__time">14:35</span>
+          </div>
+        </li>
+        <li class="step" id="step-ready" data-status="ready">
+          <span class="step__icon" aria-hidden="true">🍽️</span>
+          <div class="step__content">
+            <h3 class="step__title">جاهز</h3>
+            <p class="step__text">طلبك جاهز ويتم إحضاره إلى طاولتك.</p>
+          </div>
+        </li>
+      </ol>
+
+      <p class="eta" id="order-eta" data-eta-minutes="15">⏱️ الوقت المتوقع للتحضير: 15 دقيقة</p>
+    </section>
+
+    <!-- Sipariş özeti -->
+    <aside class="card" id="order-summary" aria-labelledby="summary-title">
+      <h2 class="card__title" id="summary-title">ملخص الطلب</h2>
+      <ul class="summary-list" id="order-items">
+        <li data-item-id="m1" data-qty="2"><span>2× كباب أضنة</span><span>760 ₺</span></li>
+        <li data-item-id="d3" data-qty="2"><span>2× ليموناضة منزلية</span><span>120 ₺</span></li>
+        <li class="summary-list__total"><span>المجموع</span><span id="order-total" data-total="880">880 ₺</span></li>
+      </ul>
+    </aside>
+
+    <div class="tracking__actions">
+      <a href="menu.html" class="btn btn--outline" id="back-to-menu">→ العودة إلى المنيو</a>
+      <button type="button" class="btn btn--primary" id="call-waiter" data-action="call-waiter" data-table-id="5">🛎️ استدعاء النادل</button>
+    </div>
+  </main>
+
+  <footer class="site-footer" id="site-footer">
+    <div class="container">
+      <nav class="site-footer__links">
+        <a href="menu.html">المنيو</a>
+        <a href="order-tracking.html">طلبي</a>
+      </nav>
+      <p>© 2026 Lezzet Durağı — نظام المنيو الرقمي والطلبات عبر QR</p>
+    </div>
+  </footer>
+</body>
+</html>

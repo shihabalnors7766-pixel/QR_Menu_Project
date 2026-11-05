@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="نظام المنيو الرقمي والطلبات عبر رمز QR">
+  <title>لوحة التحكم | Lezzet Durağı</title>
+  <!-- Google Fonts: Latin harfler için Poppins, Arapça için Cairo (internet yoksa sistem yazı tipi kullanılır) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap">
+  <!-- Tüm sayfalar ve diller aynı ortak stil dosyasını kullanır -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-admin" data-lang="ar" data-page="admin">
+  <div class="admin-layout">
+    <!-- Kenar menü: geniş ekranda solda sabit, telefonda üstte yatay -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <a href="admin.html" class="brand">
+        <span class="brand__logo" aria-hidden="true">🍽️</span>
+        <span class="brand__name">Lezzet Durağı
+          <span class="brand__sub">الإدارة</span>
+        </span>
+      </a>
+      <nav aria-label="لوحة التحكم">
+        <ul class="admin-nav" id="admin-nav">
+          <li><a href="#overview" class="admin-nav__link is-active" data-section="overview">📊 نظرة عامة</a></li>
+          <li><a href="#waiter-calls" class="admin-nav__link" data-section="waiter-calls">🛎️ استدعاءات النادل <span class="admin-nav__count">2</span></a></li>
+          <li><a href="#orders" class="admin-nav__link" data-section="orders">🧾 الطلبات <span class="admin-nav__count" id="nav-pending-count">1</span></a></li>
+          <li><a href="#qr-codes" class="admin-nav__link" data-section="qr-codes">📱 رموز QR</a></li>
+          <li><a href="#meals" class="admin-nav__link" data-section="meals">🍽️ الوجبات</a></li>
+          <li><a href="#add-meal" class="admin-nav__link" data-section="add-meal">➕ إضافة وجبة جديدة</a></li>
+        </ul>
+      </nav>
+      <div class="admin-sidebar__footer">
+        <!-- Müşteri sayfaları yeni sekmede açılır: yönetim paneli sekmesi açık kalır -->
+        <a href="menu.html" class="admin-nav__link" target="_blank" rel="noopener">↗ منيو الزبائن</a>
+        <a href="admin-login.html" class="admin-nav__link" id="logout" data-action="logout">🚪 تسجيل الخروج</a>
+      </div>
+    </aside>
+
+    <main class="admin-main" id="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <h1 class="admin-topbar__title">لوحة التحكم</h1>
+          <p class="admin-topbar__sub">طلبات اليوم وإدارة المنيو</p>
+        </div>
+        <div class="admin-topbar__actions">
+          <!-- Dil seçimi: her dilin sayfası kendi klasöründe (tr / ar / en) -->
+          <nav class="lang-switch" id="lang-switch" aria-label="اختيار اللغة">
+            <a href="../tr/admin.html" class="lang-link" lang="tr" hreflang="tr" data-lang="tr" title="Türkçe">TR</a>
+            <a href="../ar/admin.html" class="lang-link is-active" lang="ar" hreflang="ar" data-lang="ar" title="العربية" aria-current="true">AR</a>
+            <a href="../en/admin.html" class="lang-link" lang="en" hreflang="en" data-lang="en" title="English">EN</a>
+          </nav>
+          <a href="menu.html" class="btn btn--outline btn--sm" target="_blank" rel="noopener">↗ منيو الزبائن</a>
+          <span class="admin-user"><span class="admin-user__avatar" aria-hidden="true">👤</span> المدير</span>
+        </div>
+      </header>
+
+      <!-- Genel bakış: günlük istatistikler -->
+      <section class="admin-section" id="overview" aria-label="نظرة عامة">
+        <div class="stats">
+          <article class="stat-card" data-stat="today-orders">
+            <p class="stat-card__label">طلبات اليوم</p>
+            <p class="stat-card__value" id="stat-today-orders">48</p>
+          </article>
+          <article class="stat-card stat-card--pending" data-stat="pending">
+            <p class="stat-card__label">قيد الانتظار</p>
+            <p class="stat-card__value" id="stat-pending">1</p>
+          </article>
+          <article class="stat-card stat-card--preparing" data-stat="preparing">
+            <p class="stat-card__label">قيد التحضير</p>
+            <p class="stat-card__value" id="stat-preparing">1</p>
+          </article>
+          <article class="stat-card stat-card--revenue" data-stat="revenue">
+            <p class="stat-card__label">إيرادات اليوم</p>
+            <p class="stat-card__value" id="stat-revenue">12,450 ₺</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Garson çağrıları: müşterinin takip sayfasındaki butonla bağlantılı -->
+      <section class="admin-section" id="waiter-calls" aria-labelledby="calls-title">
+        <div class="admin-section__header">
+          <h2 class="admin-section__title" id="calls-title">🛎️ استدعاءات النادل</h2>
+          <span class="status status--pending" id="calls-count" data-count="2">2 بالانتظار</span>
+        </div>
+        <ul class="call-list" id="call-list">
+          <li class="call-item" id="call-1" data-call-id="1" data-table-id="5">
+            <span class="call-item__icon" aria-hidden="true">🛎️</span>
+            <div class="call-item__info">
+              <p class="call-item__title">طاولة 5 — تطلب النادل</p>
+              <p class="call-item__time">14:40</p>
+            </div>
+            <button type="button" class="btn btn--primary btn--sm" data-action="resolve-call" data-call-id="1">✓ تم</button>
+          </li>
+          <li class="call-item" id="call-2" data-call-id="2" data-table-id="2">
+            <span class="call-item__icon" aria-hidden="true">🛎️</span>
+            <div class="call-item__info">
+              <p class="call-item__title">طاولة 2 — تطلب النادل</p>
+              <p class="call-item__time">14:38</p>
+            </div>
+            <button type="button" class="btn btn--primary btn--sm" data-action="resolve-call" data-call-id="2">✓ تم</button>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Sipariş listesi: durum seçimi finalde JavaScript ile çalışacak -->
+      <section class="admin-section" id="orders" aria-labelledby="orders-title">
+        <div class="admin-section__header">
+          <h2 class="admin-section__title" id="orders-title">آخر الطلبات</h2>
+          <label for="order-filter" class="visually-hidden">الحالة</label>
+          <select id="order-filter" class="status-select" data-action="filter-orders">
+            <option value="all">الكل</option>
+            <option value="pending">قيد الانتظار</option>
+            <option value="preparing">قيد التحضير</option>
+            <option value="ready">جاهز</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="orders-table">
+            <thead>
+              <tr>
+                <th scope="col">رقم الطلب</th>
+                <th scope="col">الطاولة</th>
+                <th scope="col">الساعة</th>
+                <th scope="col">المنتجات</th>
+                <th scope="col">المبلغ</th>
+                <th scope="col">الحالة</th>
+                <th scope="col">الإجراء</th>
+              </tr>
+            </thead>
+            <tbody id="orders-body">
+              <tr id="order-1046" data-order-id="1046" data-table-id="2" data-status="pending">
+                <td><strong>#1046</strong></td>
+                <td>2</td>
+                <td>14:41</td>
+                <td class="table__items">1× شوربة العدس، 2× شاي تركي</td>
+                <td><strong>180 ₺</strong></td>
+                <td><span class="status status--pending">قيد الانتظار</span></td>
+                <td>
+                  <div class="table__actions">
+                    <label for="status-1046" class="visually-hidden">الحالة #1046</label>
+                    <select id="status-1046" class="status-select" name="status-1046" data-order-id="1046">
+                      <option value="pending" selected>قيد الانتظار</option>
+                      <option value="preparing">قيد التحضير</option>
+                      <option value="ready">جاهز</option>
+                    </select>
+                    <button type="button" class="btn btn--primary btn--sm" data-action="update-status" data-order-id="1046">تحديث</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="order-1045" data-order-id="1045" data-table-id="5" data-status="preparing">
+                <td><strong>#1045</strong></td>
+                <td>5</td>
+                <td>14:32</td>
+                <td class="table__items">2× كباب أضنة، 2× ليموناضة منزلية</td>
+                <td><strong>880 ₺</strong></td>
+                <td><span class="status status--preparing">قيد التحضير</span></td>
+                <td>
+                  <div class="table__actions">
+                    <label for="status-1045" class="visually-hidden">الحالة #1045</label>
+                    <select id="status-1045" class="status-select" name="status-1045" data-order-id="1045">
+                      <option value="pending">قيد الانتظار</option>
+                      <option value="preparing" selected>قيد التحضير</option>
+                      <option value="ready">جاهز</option>
+                    </select>
+                    <button type="button" class="btn btn--primary btn--sm" data-action="update-status" data-order-id="1045">تحديث</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="order-1044" data-order-id="1044" data-table-id="8" data-status="ready">
+                <td><strong>#1044</strong></td>
+                <td>8</td>
+                <td>14:20</td>
+                <td class="table__items">1× بقلاوة بالفستق، 2× قهوة تركية</td>
+                <td><strong>410 ₺</strong></td>
+                <td><span class="status status--ready">جاهز</span></td>
+                <td>
+                  <div class="table__actions">
+                    <label for="status-1044" class="visually-hidden">الحالة #1044</label>
+                    <select id="status-1044" class="status-select" name="status-1044" data-order-id="1044">
+                      <option value="pending">قيد الانتظار</option>
+                      <option value="preparing">قيد التحضير</option>
+                      <option value="ready" selected>جاهز</option>
+                    </select>
+                    <button type="button" class="btn btn--primary btn--sm" data-action="update-status" data-order-id="1044">تحديث</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="order-1043" data-order-id="1043" data-table-id="3" data-status="ready">
+                <td><strong>#1043</strong></td>
+                <td>3</td>
+                <td>14:05</td>
+                <td class="table__items">1× شيش طاووق، 1× حمّص، 1× شاي تركي</td>
+                <td><strong>490 ₺</strong></td>
+                <td><span class="status status--ready">جاهز</span></td>
+                <td>
+                  <div class="table__actions">
+                    <label for="status-1043" class="visually-hidden">الحالة #1043</label>
+                    <select id="status-1043" class="status-select" name="status-1043" data-order-id="1043">
+                      <option value="pending">قيد الانتظار</option>
+                      <option value="preparing">قيد التحضير</option>
+                      <option value="ready" selected>جاهز</option>
+                    </select>
+                    <button type="button" class="btn btn--primary btn--sm" data-action="update-status" data-order-id="1043">تحديث</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Yemek yönetimi tablosu -->
+      <section class="admin-section" id="meals" aria-labelledby="meals-title">
+        <div class="admin-section__header">
+          <h2 class="admin-section__title" id="meals-title">قائمة الوجبات</h2>
+          <a href="#add-meal" class="btn btn--primary btn--sm">➕ إضافة وجبة جديدة</a>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="meals-table">
+            <thead>
+              <tr>
+                <th scope="col">الصورة</th>
+                <th scope="col">اسم الوجبة</th>
+                <th scope="col">التصنيف</th>
+                <th scope="col">السعر</th>
+                <th scope="col">الحالة</th>
+                <th scope="col">الإجراء</th>
+              </tr>
+            </thead>
+            <tbody id="meals-body">
+              <tr id="meal-s1" data-item-id="s1" data-category="starters" data-available="true">
+                <td><img src="../img/menu/s1.jpg" alt="شوربة العدس" class="table__thumb" width="48" height="48"></td>
+                <td><strong>شوربة العدس</strong></td>
+                <td>المقبلات</td>
+                <td>120 ₺</td>
+                <td><label class="stock-switch" for="stock-s1"><input type="checkbox" class="stock-switch__input" id="stock-s1" data-action="toggle-stock" data-item-id="s1" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="s1">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="s1">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-s2" data-item-id="s2" data-category="starters" data-available="true">
+                <td><img src="../img/menu/s2.jpg" alt="حمّص" class="table__thumb" width="48" height="48"></td>
+                <td><strong>حمّص</strong></td>
+                <td>المقبلات</td>
+                <td>140 ₺</td>
+                <td><label class="stock-switch" for="stock-s2"><input type="checkbox" class="stock-switch__input" id="stock-s2" data-action="toggle-stock" data-item-id="s2" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="s2">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="s2">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-s3" data-item-id="s3" data-category="starters" data-available="true">
+                <td><img src="../img/menu/s3.jpg" alt="لحم بعجين" class="table__thumb" width="48" height="48"></td>
+                <td><strong>لحم بعجين</strong></td>
+                <td>المقبلات</td>
+                <td>150 ₺</td>
+                <td><label class="stock-switch" for="stock-s3"><input type="checkbox" class="stock-switch__input" id="stock-s3" data-action="toggle-stock" data-item-id="s3" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="s3">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="s3">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-m1" data-item-id="m1" data-category="mains" data-available="true">
+                <td><img src="../img/menu/m1.jpg" alt="كباب أضنة" class="table__thumb" width="48" height="48"></td>
+                <td><strong>كباب أضنة</strong></td>
+                <td>الأطباق الرئيسية</td>
+                <td>380 ₺</td>
+                <td><label class="stock-switch" for="stock-m1"><input type="checkbox" class="stock-switch__input" id="stock-m1" data-action="toggle-stock" data-item-id="m1" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="m1">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="m1">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-m2" data-item-id="m2" data-category="mains" data-available="true">
+                <td><img src="../img/menu/m2.jpg" alt="شيش طاووق" class="table__thumb" width="48" height="48"></td>
+                <td><strong>شيش طاووق</strong></td>
+                <td>الأطباق الرئيسية</td>
+                <td>320 ₺</td>
+                <td><label class="stock-switch" for="stock-m2"><input type="checkbox" class="stock-switch__input" id="stock-m2" data-action="toggle-stock" data-item-id="m2" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="m2">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="m2">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-m3" data-item-id="m3" data-category="mains" data-available="true">
+                <td><img src="../img/menu/m3.jpg" alt="كباب بيتي" class="table__thumb" width="48" height="48"></td>
+                <td><strong>كباب بيتي</strong></td>
+                <td>الأطباق الرئيسية</td>
+                <td>360 ₺</td>
+                <td><label class="stock-switch" for="stock-m3"><input type="checkbox" class="stock-switch__input" id="stock-m3" data-action="toggle-stock" data-item-id="m3" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="m3">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="m3">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-d1" data-item-id="d1" data-category="drinks" data-available="true">
+                <td><img src="../img/menu/d1.jpg" alt="شاي تركي" class="table__thumb" width="48" height="48"></td>
+                <td><strong>شاي تركي</strong></td>
+                <td>المشروبات</td>
+                <td>30 ₺</td>
+                <td><label class="stock-switch" for="stock-d1"><input type="checkbox" class="stock-switch__input" id="stock-d1" data-action="toggle-stock" data-item-id="d1" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="d1">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="d1">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-d2" data-item-id="d2" data-category="drinks" data-available="true">
+                <td><img src="../img/menu/d2.jpg" alt="قهوة تركية" class="table__thumb" width="48" height="48"></td>
+                <td><strong>قهوة تركية</strong></td>
+                <td>المشروبات</td>
+                <td>80 ₺</td>
+                <td><label class="stock-switch" for="stock-d2"><input type="checkbox" class="stock-switch__input" id="stock-d2" data-action="toggle-stock" data-item-id="d2" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="d2">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="d2">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-d3" data-item-id="d3" data-category="drinks" data-available="true">
+                <td><img src="../img/menu/d3.jpg" alt="ليموناضة منزلية" class="table__thumb" width="48" height="48"></td>
+                <td><strong>ليموناضة منزلية</strong></td>
+                <td>المشروبات</td>
+                <td>60 ₺</td>
+                <td><label class="stock-switch" for="stock-d3"><input type="checkbox" class="stock-switch__input" id="stock-d3" data-action="toggle-stock" data-item-id="d3" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="d3">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="d3">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-d4" data-item-id="d4" data-category="drinks" data-available="false">
+                <td><img src="../img/menu/d4.jpg" alt="عصير برتقال طازج" class="table__thumb" width="48" height="48"></td>
+                <td><strong>عصير برتقال طازج</strong></td>
+                <td>المشروبات</td>
+                <td>90 ₺</td>
+                <td><label class="stock-switch" for="stock-d4"><input type="checkbox" class="stock-switch__input" id="stock-d4" data-action="toggle-stock" data-item-id="d4" aria-label="تغيير حالة التوفر"><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="d4">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="d4">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-t1" data-item-id="t1" data-category="desserts" data-available="true">
+                <td><img src="../img/menu/t1.jpg" alt="كنافة" class="table__thumb" width="48" height="48"></td>
+                <td><strong>كنافة</strong></td>
+                <td>الحلويات</td>
+                <td>220 ₺</td>
+                <td><label class="stock-switch" for="stock-t1"><input type="checkbox" class="stock-switch__input" id="stock-t1" data-action="toggle-stock" data-item-id="t1" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="t1">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="t1">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-t2" data-item-id="t2" data-category="desserts" data-available="true">
+                <td><img src="../img/menu/t2.jpg" alt="بقلاوة بالفستق" class="table__thumb" width="48" height="48"></td>
+                <td><strong>بقلاوة بالفستق</strong></td>
+                <td>الحلويات</td>
+                <td>250 ₺</td>
+                <td><label class="stock-switch" for="stock-t2"><input type="checkbox" class="stock-switch__input" id="stock-t2" data-action="toggle-stock" data-item-id="t2" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="t2">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="t2">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+              <tr id="meal-t3" data-item-id="t3" data-category="desserts" data-available="true">
+                <td><img src="../img/menu/t3.jpg" alt="أرز بالحليب" class="table__thumb" width="48" height="48"></td>
+                <td><strong>أرز بالحليب</strong></td>
+                <td>الحلويات</td>
+                <td>150 ₺</td>
+                <td><label class="stock-switch" for="stock-t3"><input type="checkbox" class="stock-switch__input" id="stock-t3" data-action="toggle-stock" data-item-id="t3" aria-label="تغيير حالة التوفر" checked><span class="stock-switch__track" aria-hidden="true"></span><span class="status status--available stock-switch__on">متوفر</span><span class="status status--soldout stock-switch__off">نفدت الكمية</span></label></td>
+                <td>
+                  <div class="table__actions">
+                    <button type="button" class="btn btn--outline btn--sm" data-action="edit-meal" data-item-id="t3">✏️ تعديل</button>
+                    <button type="button" class="btn btn--danger btn--sm" data-action="delete-meal" data-item-id="t3">🗑️ حذف</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Masa QR kodları: her kod kendi masa numarasını adreste taşır (?table=1 ... 12) -->
+      <section class="admin-section" id="qr-codes" aria-labelledby="qr-title">
+        <div class="admin-section__header">
+          <h2 class="admin-section__title" id="qr-title">📱 رموز QR للطاولات</h2>
+          <span class="form-hint">كل رمز يحتوي رقم طاولته. للطباعة اضغط Ctrl + P.</span>
+        </div>
+        <div class="qr-grid" id="qr-grid">
+          <figure class="qr-card" id="qr-table-1" data-table-id="1">
+            <img src="../img/qr/table-1.svg" alt="QR — طاولة 1" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 1</figcaption>
+            <a href="../index.html?table=1" class="qr-card__link" data-table-id="1" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-2" data-table-id="2">
+            <img src="../img/qr/table-2.svg" alt="QR — طاولة 2" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 2</figcaption>
+            <a href="../index.html?table=2" class="qr-card__link" data-table-id="2" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-3" data-table-id="3">
+            <img src="../img/qr/table-3.svg" alt="QR — طاولة 3" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 3</figcaption>
+            <a href="../index.html?table=3" class="qr-card__link" data-table-id="3" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-4" data-table-id="4">
+            <img src="../img/qr/table-4.svg" alt="QR — طاولة 4" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 4</figcaption>
+            <a href="../index.html?table=4" class="qr-card__link" data-table-id="4" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-5" data-table-id="5">
+            <img src="../img/qr/table-5.svg" alt="QR — طاولة 5" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 5</figcaption>
+            <a href="../index.html?table=5" class="qr-card__link" data-table-id="5" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-6" data-table-id="6">
+            <img src="../img/qr/table-6.svg" alt="QR — طاولة 6" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 6</figcaption>
+            <a href="../index.html?table=6" class="qr-card__link" data-table-id="6" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-7" data-table-id="7">
+            <img src="../img/qr/table-7.svg" alt="QR — طاولة 7" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 7</figcaption>
+            <a href="../index.html?table=7" class="qr-card__link" data-table-id="7" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-8" data-table-id="8">
+            <img src="../img/qr/table-8.svg" alt="QR — طاولة 8" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 8</figcaption>
+            <a href="../index.html?table=8" class="qr-card__link" data-table-id="8" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-9" data-table-id="9">
+            <img src="../img/qr/table-9.svg" alt="QR — طاولة 9" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 9</figcaption>
+            <a href="../index.html?table=9" class="qr-card__link" data-table-id="9" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-10" data-table-id="10">
+            <img src="../img/qr/table-10.svg" alt="QR — طاولة 10" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 10</figcaption>
+            <a href="../index.html?table=10" class="qr-card__link" data-table-id="10" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-11" data-table-id="11">
+            <img src="../img/qr/table-11.svg" alt="QR — طاولة 11" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 11</figcaption>
+            <a href="../index.html?table=11" class="qr-card__link" data-table-id="11" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+          <figure class="qr-card" id="qr-table-12" data-table-id="12">
+            <img src="../img/qr/table-12.svg" alt="QR — طاولة 12" width="160" height="160">
+            <figcaption class="qr-card__title">طاولة 12</figcaption>
+            <a href="../index.html?table=12" class="qr-card__link" data-table-id="12" target="_blank" rel="noopener">🔗 تجربة الرابط</a>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Yeni yemek ekleme formu: kaydetme işlemi finalde JavaScript ile yapılacak -->
+      <section class="admin-section" id="add-meal" aria-labelledby="add-meal-title">
+        <div class="admin-section__header">
+          <h2 class="admin-section__title" id="add-meal-title">إضافة وجبة جديدة</h2>
+        </div>
+        <form class="card form-grid form-grid--2" id="add-meal-form" action="#" method="get">
+          <fieldset class="form-fieldset form-group--full">
+            <legend>اسم الوجبة (3 لغات)</legend>
+            <div class="form-grid form-grid--3">
+              <div class="form-group">
+                <label for="meal-name-tr" class="form-label">التركية</label>
+                <input type="text" id="meal-name-tr" name="name_tr" class="form-control" lang="tr" dir="ltr" required>
+              </div>
+              <div class="form-group">
+                <label for="meal-name-ar" class="form-label">العربية</label>
+                <input type="text" id="meal-name-ar" name="name_ar" class="form-control" lang="ar" dir="rtl">
+              </div>
+              <div class="form-group">
+                <label for="meal-name-en" class="form-label">الإنجليزية</label>
+                <input type="text" id="meal-name-en" name="name_en" class="form-control" lang="en" dir="ltr">
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-group">
+            <label for="meal-category" class="form-label">التصنيف</label>
+            <select id="meal-category" name="category" class="form-control" required>
+              <option value="" disabled selected>اختر التصنيف</option>
+              <option value="starters">المقبلات</option>
+              <option value="mains">الأطباق الرئيسية</option>
+              <option value="drinks">المشروبات</option>
+              <option value="desserts">الحلويات</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="meal-price" class="form-label">السعر (₺)</label>
+            <input type="number" id="meal-price" name="price" class="form-control" min="0" step="0.5" placeholder="0" required>
+            <p class="form-hint">يجب أن يكون السعر 0 أو أكثر.</p>
+          </div>
+
+          <!-- Açıklama her dil için ayrı girilir (finalde sayfa diline göre gösterilecek) -->
+          <fieldset class="form-fieldset form-group--full">
+            <legend>وصف الوجبة (3 لغات)</legend>
+            <div class="form-grid form-grid--3">
+              <div class="form-group">
+                <label for="meal-desc-tr" class="form-label">التركية</label>
+                <textarea id="meal-desc-tr" name="desc_tr" class="form-control" lang="tr" dir="ltr" rows="3" placeholder="Kısa açıklama..."></textarea>
+              </div>
+              <div class="form-group">
+                <label for="meal-desc-ar" class="form-label">العربية</label>
+                <textarea id="meal-desc-ar" name="desc_ar" class="form-control" lang="ar" dir="rtl" rows="3" placeholder="وصف قصير..."></textarea>
+              </div>
+              <div class="form-group">
+                <label for="meal-desc-en" class="form-label">الإنجليزية</label>
+                <textarea id="meal-desc-en" name="desc_en" class="form-control" lang="en" dir="ltr" rows="3" placeholder="Short description..."></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-group">
+            <label for="meal-image" class="form-label">صورة الوجبة</label>
+            <input type="file" id="meal-image" name="image" class="form-control" accept="image/png, image/jpeg">
+            <p class="form-hint">JPG أو PNG، بحد أقصى 2 ميغابايت.</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-check"><input type="checkbox" id="meal-popular" name="popular"> تمييزها كالأكثر طلباً</label>
+            <label class="form-check"><input type="checkbox" id="meal-available" name="available" checked> متوفرة في المخزون</label>
+          </div>
+
+          <div class="form-actions form-group--full">
+            <button type="submit" class="btn btn--primary" id="save-meal" data-action="save-meal">💾 حفظ</button>
+            <button type="reset" class="btn btn--outline" id="reset-meal">مسح</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

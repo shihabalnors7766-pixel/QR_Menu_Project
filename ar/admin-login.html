@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="نظام المنيو الرقمي والطلبات عبر رمز QR">
+  <title>تسجيل دخول المدير | Lezzet Durağı</title>
+  <!-- Google Fonts: Latin harfler için Poppins, Arapça için Cairo (internet yoksa sistem yazı tipi kullanılır) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap">
+  <!-- Tüm sayfalar ve diller aynı ortak stil dosyasını kullanır -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-login" data-lang="ar" data-page="login">
+  <!-- Yönetici giriş sayfası: lokanta paneline girmeden önce açılır -->
+  <main class="landing" id="admin-login">
+    <div class="landing__card">
+      <div class="login__top">
+        <!-- Dil seçimi: her dilin sayfası kendi klasöründe (tr / ar / en) -->
+        <nav class="lang-switch" id="lang-switch" aria-label="اختيار اللغة">
+          <a href="../tr/admin-login.html" class="lang-link" lang="tr" hreflang="tr" data-lang="tr" title="Türkçe">TR</a>
+          <a href="../ar/admin-login.html" class="lang-link is-active" lang="ar" hreflang="ar" data-lang="ar" title="العربية" aria-current="true">AR</a>
+          <a href="../en/admin-login.html" class="lang-link" lang="en" hreflang="en" data-lang="en" title="English">EN</a>
+        </nav>
+      </div>
+      <span class="brand__logo brand__logo--lg" aria-hidden="true">🔐</span>
+      <h1 class="landing__title">تسجيل دخول المدير</h1>
+      <p class="landing__text">سجّل الدخول للوصول إلى لوحة المطعم.</p>
+
+      <!-- Gerçek şifre kontrolü sunucu ister; şimdilik form sadece panele yönlendirir -->
+      <form class="login-form form-grid" id="login-form" action="admin.html" method="get">
+        <div class="form-group">
+          <label for="login-username" class="form-label">اسم المستخدم</label>
+          <input type="text" id="login-username" name="username" class="form-control" placeholder="مثال: admin" autocomplete="username" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password" class="form-label">كلمة المرور</label>
+          <!-- Şifre adres çubuğunda görünmesin diye name niteliği verilmedi -->
+          <input type="password" id="login-password" class="form-control" placeholder="••••••••" autocomplete="current-password" required minlength="4">
+        </div>
+        <button type="submit" class="btn btn--primary btn--block" id="login-button" data-action="login">دخول</button>
+      </form>
+
+      <p class="form-hint login__note">🔒 هذه اللوحة مخصصة لموظفي المطعم فقط.</p>
+      <a href="menu.html" class="login__back">→ منيو الزبائن</a>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="QR code digital menu and ordering system">
+  <title>Order Tracking | Lezzet Durağı</title>
+  <!-- Google Fonts: Latin harfler için Poppins, Arapça için Cairo (internet yoksa sistem yazı tipi kullanılır) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap">
+  <!-- Tüm sayfalar ve diller aynı ortak stil dosyasını kullanır -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-tracking" data-lang="en" data-page="tracking">
+  <header class="site-header" id="site-header">
+    <div class="container site-header__inner">
+      <a href="menu.html" class="brand" id="brand">
+        <span class="brand__logo" aria-hidden="true">🍽️</span>
+        <span class="brand__name">Lezzet Durağı
+          <!-- Masa numarası QR koddan gelecek (final aşamasında JavaScript ile) -->
+          <span class="brand__sub" id="table-badge" data-table-id="5">Table 5</span>
+        </span>
+      </a>
+      <!-- Dil seçimi: her dilin sayfası kendi klasöründe (tr / ar / en) -->
+      <nav class="lang-switch" id="lang-switch" aria-label="Language selection">
+        <a href="../tr/order-tracking.html" class="lang-link" lang="tr" hreflang="tr" data-lang="tr" title="Türkçe">TR</a>
+        <a href="../ar/order-tracking.html" class="lang-link" lang="ar" hreflang="ar" data-lang="ar" title="العربية">AR</a>
+        <a href="../en/order-tracking.html" class="lang-link is-active" lang="en" hreflang="en" data-lang="en" title="English" aria-current="true">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="tracking container" id="order-tracking" data-order-id="1045" data-table-id="5">
+    <!-- Sipariş durum kartı -->
+    <section class="card" id="order-status-card" aria-labelledby="tracking-title">
+      <h1 class="tracking__title" id="tracking-title">Order Tracking</h1>
+      <ul class="order-meta">
+        <li>Order No: <strong id="order-number">#1045</strong></li>
+        <li>Table: <strong id="order-table">5</strong></li>
+        <li>Time: <strong id="order-time">14:32</strong></li>
+      </ul>
+
+      <!-- Durum adımları: data-current-status değeri finalde JavaScript ile güncellenecek -->
+      <ol class="steps" id="order-steps" data-current-status="preparing" aria-label="Order status">
+        <li class="step is-done" id="step-pending" data-status="pending">
+          <span class="step__icon" aria-hidden="true">🧾</span>
+          <div class="step__content">
+            <h3 class="step__title">Pending</h3>
+            <p class="step__text">Your order has been received and is awaiting confirmation.</p>
+            <span class="step__time">14:32</span>
+          </div>
+        </li>
+        <li class="step is-active" id="step-preparing" data-status="preparing" aria-current="step">
+          <span class="step__icon" aria-hidden="true">👨‍🍳</span>
+          <div class="step__content">
+            <h3 class="step__title">Preparing</h3>
+            <p class="step__text">Your order is being prepared in the kitchen.</p>
+            <span class="step__time">14:35</span>
+          </div>
+        </li>
+        <li class="step" id="step-ready" data-status="ready">
+          <span class="step__icon" aria-hidden="true">🍽️</span>
+          <div class="step__content">
+            <h3 class="step__title">Ready</h3>
+            <p class="step__text">Your order is ready and on its way to your table.</p>
+          </div>
+        </li>
+      </ol>
+
+      <p class="eta" id="order-eta" data-eta-minutes="15">⏱️ Estimated preparation time: 15 minutes</p>
+    </section>
+
+    <!-- Sipariş özeti -->
+    <aside class="card" id="order-summary" aria-labelledby="summary-title">
+      <h2 class="card__title" id="summary-title">Order Summary</h2>
+      <ul class="summary-list" id="order-items">
+        <li data-item-id="m1" data-qty="2"><span>2× Adana Kebab</span><span>₺760</span></li>
+        <li data-item-id="d3" data-qty="2"><span>2× Homemade Lemonade</span><span>₺120</span></li>
+        <li class="summary-list__total"><span>Total</span><span id="order-total" data-total="880">₺880</span></li>
+      </ul>
+    </aside>
+
+    <div class="tracking__actions">
+      <a href="menu.html" class="btn btn--outline" id="back-to-menu">← Back to Menu</a>
+      <button type="button" class="btn btn--primary" id="call-waiter" data-action="call-waiter" data-table-id="5">🛎️ Call Waiter</button>
+    </div>
+  </main>
+
+  <footer class="site-footer" id="site-footer">
+    <div class="container">
+      <nav class="site-footer__links">
+        <a href="menu.html">Menu</a>
+        <a href="order-tracking.html">My Order</a>
+      </nav>
+      <p>© 2026 Lezzet Durağı — QR Code Digital Menu & Ordering System</p>
+    </div>
+  </footer>
+</body>
+</html>

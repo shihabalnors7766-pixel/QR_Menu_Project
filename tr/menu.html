@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="QR kod ile dijital menü ve sipariş sistemi">
+  <title>Menü | Lezzet Durağı</title>
+  <!-- Google Fonts: Latin harfler için Poppins, Arapça için Cairo (internet yoksa sistem yazı tipi kullanılır) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap">
+  <!-- Tüm sayfalar ve diller aynı ortak stil dosyasını kullanır -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-menu" data-lang="tr" data-page="menu">
+  <header class="site-header" id="site-header">
+    <div class="container site-header__inner">
+      <a href="menu.html" class="brand" id="brand">
+        <span class="brand__logo" aria-hidden="true">🍽️</span>
+        <span class="brand__name">Lezzet Durağı
+          <!-- Masa numarası QR koddan gelecek (final aşamasında JavaScript ile) -->
+          <span class="brand__sub" id="table-badge" data-table-id="5">Masa 5</span>
+        </span>
+      </a>
+      <!-- Dil seçimi: her dilin sayfası kendi klasöründe (tr / ar / en) -->
+      <nav class="lang-switch" id="lang-switch" aria-label="Dil seçimi">
+        <a href="../tr/menu.html" class="lang-link is-active" lang="tr" hreflang="tr" data-lang="tr" title="Türkçe" aria-current="true">TR</a>
+        <a href="../ar/menu.html" class="lang-link" lang="ar" hreflang="ar" data-lang="ar" title="العربية">AR</a>
+        <a href="../en/menu.html" class="lang-link" lang="en" hreflang="en" data-lang="en" title="English">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Karşılama alanı: arka planda büyük yemek fotoğrafı ve koyu katman (CSS) -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <span class="hero__eyebrow">🍽️ Lezzet Durağı · Masa 5</span>
+      <h1 class="hero__title">Hoş geldiniz 👋</h1>
+      <p class="hero__text">Menüyü inceleyin, siparişinizi masanızdan verin.</p>
+      <form class="search-form" id="search-form" role="search" action="#">
+        <label for="search-input" class="visually-hidden">Yemek ara</label>
+        <input type="search" id="search-input" class="search-form__input" name="q" placeholder="Yemek veya içecek ara..." autocomplete="off">
+      </form>
+    </div>
+  </section>
+
+  <!-- Kategori menüsü: bağlantılar sayfadaki ilgili bölüme kaydırır -->
+  <nav class="category-nav" id="category-nav" aria-label="Kategoriler">
+    <div class="container">
+      <ul class="category-nav__list">
+          <li><a href="#cat-starters" class="category-nav__link" data-category="starters">🥣 Başlangıçlar</a></li>
+          <li><a href="#cat-mains" class="category-nav__link" data-category="mains">🍖 Ana Yemekler</a></li>
+          <li><a href="#cat-drinks" class="category-nav__link" data-category="drinks">🥤 İçecekler</a></li>
+          <li><a href="#cat-desserts" class="category-nav__link" data-category="desserts">🍰 Tatlılar</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="menu container" id="menu">
+    <section class="menu-category" id="cat-starters" data-category="starters" aria-labelledby="title-starters">
+      <h2 class="menu-category__title" id="title-starters"><span aria-hidden="true">🥣</span> Başlangıçlar</h2>
+      <div class="menu-grid" id="grid-starters">
+        <!-- Ürün kartı: data-* nitelikleri finalde JavaScript ile sepete eklemek için kullanılacak -->
+        <article class="menu-card" id="item-s1" data-item-id="s1" data-category="starters" data-price="120" data-available="true" data-popular="true">
+          <figure class="menu-card__media">
+            <img src="../img/menu/s1.jpg" alt="Mercimek Çorbası" width="400" height="300" loading="lazy">
+            <span class="badge badge--popular">Popüler</span>
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Mercimek Çorbası</h3>
+            <p class="menu-card__desc">Limon ve kıtır ekmek ile servis edilir.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="120">120 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="s1">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+        <article class="menu-card" id="item-s2" data-item-id="s2" data-category="starters" data-price="140" data-available="true" data-popular="false">
+          <figure class="menu-card__media">
+            <img src="../img/menu/s2.jpg" alt="Humus" width="400" height="300" loading="lazy">
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Humus</h3>
+            <p class="menu-card__desc">Zeytinyağı ve pul biber ile.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="140">140 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="s2">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+        <article class="menu-card" id="item-s3" data-item-id="s3" data-category="starters" data-price="150" data-available="true" data-popular="false">
+          <figure class="menu-card__media">
+            <img src="../img/menu/s3.jpg" alt="Lahmacun" width="400" height="300" loading="lazy">
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Lahmacun</h3>
+            <p class="menu-card__desc">İnce hamur, kıymalı harç, limon ve yeşillik ile.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="150">150 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="s3">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="menu-category" id="cat-mains" data-category="mains" aria-labelledby="title-mains">
+      <h2 class="menu-category__title" id="title-mains"><span aria-hidden="true">🍖</span> Ana Yemekler</h2>
+      <div class="menu-grid" id="grid-mains">
+        <article class="menu-card" id="item-m1" data-item-id="m1" data-category="mains" data-price="380" data-available="true" data-popular="true">
+          <figure class="menu-card__media">
+            <img src="../img/menu/m1.jpg" alt="Adana Kebap" width="400" height="300" loading="lazy">
+            <span class="badge badge--popular">Popüler</span>
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Adana Kebap</h3>
+            <p class="menu-card__desc">Közlenmiş biber, domates ve pilav ile.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="380">380 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="m1">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+        <article class="menu-card" id="item-m2" data-item-id="m2" data-category="mains" data-price="320" data-available="true" data-popular="false">
+          <figure class="menu-card__media">
+            <img src="../img/menu/m2.jpg" alt="Tavuk Şiş" width="400" height="300" loading="lazy">
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Tavuk Şiş</h3>
+            <p class="menu-card__desc">Marine edilmiş tavuk, bulgur pilavı ve salata ile.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="320">320 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="m2">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+        <article class="menu-card" id="item-m3" data-item-id="m3" data-category="mains" data-price="360" data-available="true" data-popular="false">
+          <figure class="menu-card__media">
+            <img src="../img/menu/m3.jpg" alt="Beyti Kebap" width="400" height="300" loading="lazy">
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Beyti Kebap</h3>
+            <p class="menu-card__desc">Lavaşa sarılı, yoğurt ve domates sosu ile.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="360">360 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="m3">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="menu-category" id="cat-drinks" data-category="drinks" aria-labelledby="title-drinks">
+      <h2 class="menu-category__title" id="title-drinks"><span aria-hidden="true">🥤</span> İçecekler</h2>
+      <div class="menu-grid" id="grid-drinks">
+        <article class="menu-card" id="item-d1" data-item-id="d1" data-category="drinks" data-price="30" data-available="true" data-popular="false">
+          <figure class="menu-card__media">
+            <img src="../img/menu/d1.jpg" alt="Türk Çayı" width="400" height="300" loading="lazy">
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Türk Çayı</h3>
+            <p class="menu-card__desc">İnce belli bardakta, taze demlenmiş.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="30">30 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="d1">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+        <article class="menu-card" id="item-d2" data-item-id="d2" data-category="drinks" data-price="80" data-available="true" data-popular="true">
+          <figure class="menu-card__media">
+            <img src="../img/menu/d2.jpg" alt="Türk Kahvesi" width="400" height="300" loading="lazy">
+            <span class="badge badge--popular">Popüler</span>
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Türk Kahvesi</h3>
+            <p class="menu-card__desc">Lokum ile servis edilir.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="80">80 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="d2">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+        <article class="menu-card" id="item-d3" data-item-id="d3" data-category="drinks" data-price="60" data-available="true" data-popular="false">
+          <figure class="menu-card__media">
+            <img src="../img/menu/d3.jpg" alt="Ev Yapımı Limonata" width="400" height="300" loading="lazy">
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Ev Yapımı Limonata</h3>
+            <p class="menu-card__desc">Taze limon ve nane ile, soğuk servis.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="60">60 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="d3">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+        <article class="menu-card is-sold-out" id="item-d4" data-item-id="d4" data-category="drinks" data-price="90" data-available="false" data-popular="false">
+          <figure class="menu-card__media">
+            <img src="../img/menu/d4.jpg" alt="Taze Portakal Suyu" width="400" height="300" loading="lazy">
+            <span class="badge badge--soldout">Tükendi</span>
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Taze Portakal Suyu</h3>
+            <p class="menu-card__desc">Günlük sıkılmış portakal suyu.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="90">90 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="d4" disabled>Tükendi</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="menu-category" id="cat-desserts" data-category="desserts" aria-labelledby="title-desserts">
+      <h2 class="menu-category__title" id="title-desserts"><span aria-hidden="true">🍰</span> Tatlılar</h2>
+      <div class="menu-grid" id="grid-desserts">
+        <article class="menu-card" id="item-t1" data-item-id="t1" data-category="desserts" data-price="220" data-available="true" data-popular="true">
+          <figure class="menu-card__media">
+            <img src="../img/menu/t1.jpg" alt="Künefe" width="400" height="300" loading="lazy">
+            <span class="badge badge--popular">Popüler</span>
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Künefe</h3>
+            <p class="menu-card__desc">Antep fıstıklı, sıcak servis edilir.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="220">220 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="t1">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+        <article class="menu-card" id="item-t2" data-item-id="t2" data-category="desserts" data-price="250" data-available="true" data-popular="false">
+          <figure class="menu-card__media">
+            <img src="../img/menu/t2.jpg" alt="Fıstıklı Baklava" width="400" height="300" loading="lazy">
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Fıstıklı Baklava</h3>
+            <p class="menu-card__desc">4 dilim, kaymak ile.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="250">250 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="t2">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+        <article class="menu-card" id="item-t3" data-item-id="t3" data-category="desserts" data-price="150" data-available="true" data-popular="false">
+          <figure class="menu-card__media">
+            <img src="../img/menu/t3.jpg" alt="Fırın Sütlaç" width="400" height="300" loading="lazy">
+          </figure>
+          <div class="menu-card__body">
+            <h3 class="menu-card__title">Fırın Sütlaç</h3>
+            <p class="menu-card__desc">Tarçın ile, soğuk servis edilir.</p>
+            <div class="menu-card__footer">
+              <span class="menu-card__price" data-price="150">150 ₺</span>
+              <button type="button" class="btn btn--primary btn-add" data-action="add-to-cart" data-item-id="t3">+ Sepete Ekle</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sabit sepet butonu: #cart bağlantısı sepet panelini açar -->
+  <a href="#cart" class="cart-fab" id="cart-button" data-action="open-cart">
+    <span class="cart-fab__label">🛒 Sepetim <span class="cart-fab__count" id="cart-count" data-count="4">4</span></span>
+    <span class="cart-fab__total" id="cart-fab-total" data-total="880">880 ₺</span>
+  </a>
+
+  <!-- Sepet paneli: CSS :target ile açılıp kapanır (finalde JavaScript ile dinamik olacak) -->
+  <aside class="cart" id="cart" aria-labelledby="cart-title">
+    <a href="#menu" class="cart__overlay" aria-label="Kapat"></a>
+    <div class="cart__panel">
+      <div class="cart__header">
+        <h2 class="cart__title" id="cart-title">🛒 Sepetim</h2>
+        <a href="#menu" class="cart__close" id="cart-close" data-action="close-cart" aria-label="Kapat">✕</a>
+      </div>
+
+      <ul class="cart__list" id="cart-items">
+        <li class="cart-item" id="cart-item-m1" data-item-id="m1" data-qty="2" data-unit-price="380">
+          <img src="../img/menu/m1.jpg" alt="Adana Kebap" class="cart-item__img" width="56" height="56">
+          <div class="cart-item__info">
+            <p class="cart-item__name">Adana Kebap</p>
+            <p class="cart-item__unit">Birim fiyat: 380 ₺</p>
+            <div class="qty" data-item-id="m1">
+              <button type="button" class="qty__btn" data-action="decrease" aria-label="Azalt">−</button>
+              <span class="qty__value">2</span>
+              <button type="button" class="qty__btn" data-action="increase" aria-label="Artır">+</button>
+            </div>
+          </div>
+          <div class="cart-item__side">
+            <span class="cart-item__total">760 ₺</span>
+            <button type="button" class="cart-item__remove" data-action="remove-from-cart" data-item-id="m1">Kaldır</button>
+          </div>
+        </li>
+        <li class="cart-item" id="cart-item-d3" data-item-id="d3" data-qty="2" data-unit-price="60">
+          <img src="../img/menu/d3.jpg" alt="Ev Yapımı Limonata" class="cart-item__img" width="56" height="56">
+          <div class="cart-item__info">
+            <p class="cart-item__name">Ev Yapımı Limonata</p>
+            <p class="cart-item__unit">Birim fiyat: 60 ₺</p>
+            <div class="qty" data-item-id="d3">
+              <button type="button" class="qty__btn" data-action="decrease" aria-label="Azalt">−</button>
+              <span class="qty__value">2</span>
+              <button type="button" class="qty__btn" data-action="increase" aria-label="Artır">+</button>
+            </div>
+          </div>
+          <div class="cart-item__side">
+            <span class="cart-item__total">120 ₺</span>
+            <button type="button" class="cart-item__remove" data-action="remove-from-cart" data-item-id="d3">Kaldır</button>
+          </div>
+        </li>
+      </ul>
+
+      <div class="cart__note">
+        <label for="order-note" class="form-label">Sipariş notu</label>
+        <textarea id="order-note" name="order-note" class="form-control" rows="2" placeholder="Örn: Soğansız olsun, acısız olsun..."></textarea>
+      </div>
+
+      <div class="cart__summary" id="cart-summary">
+        <div class="cart__row"><span>Ürün sayısı</span><span id="cart-items-count">4</span></div>
+        <div class="cart__row cart__row--total"><span>Toplam</span><span id="cart-total" data-total="880">880 ₺</span></div>
+      </div>
+
+      <a href="order-tracking.html" class="btn btn--primary btn--block" id="confirm-order" data-action="confirm-order" data-table-id="5">Siparişi Onayla</a>
+    </div>
+  </aside>
+
+  <footer class="site-footer" id="site-footer">
+    <div class="container">
+      <nav class="site-footer__links">
+        <a href="menu.html">Menü</a>
+        <a href="order-tracking.html">Siparişim</a>
+      </nav>
+      <p>© 2026 Lezzet Durağı — QR Kod ile Dijital Menü ve Sipariş Sistemi</p>
+    </div>
+  </footer>
+</body>
+</html>
